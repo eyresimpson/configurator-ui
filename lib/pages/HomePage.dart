@@ -1,11 +1,10 @@
-import 'dart:ui';
-
 import 'package:configurator/comps/MainContent.dart';
 import 'package:fluent_ui/fluent_ui.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter/services.dart';
+import 'package:hugeicons/hugeicons.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../provider/Status.dart';
 
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -133,55 +132,73 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           // 主区域
-          const Expanded(
+          Expanded(
               flex: 16,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  // 这个列是提示用，如果未加载配置就显示
-                  // Column(
-                  //   mainAxisAlignment: MainAxisAlignment.center,
-                  //   crossAxisAlignment: CrossAxisAlignment.center,
-                  //   children: <Widget>[
-                  //     Container(
-                  //       margin: const EdgeInsets.only(bottom: 10),
-                  //       child: const Icon(
-                  //         // color: Colors.grey,
-                  //         shadows: [
-                  //           Shadow(
-                  //             blurRadius: 10,
-                  //             offset: Offset(0, 0),
-                  //             color: Colors.grey,
-                  //           )
-                  //         ],
-                  //         Icons.file_present_rounded,
-                  //         size: 75,
-                  //       ),
-                  //     ),
-                  //     const Text(
-                  //       'Configurator',
-                  //       style: TextStyle(
-                  //         fontSize: 20,
-                  //         fontFamily: "moji",
-                  //         // color: Colors.grey,
-                  //         fontWeight: FontWeight.bold,
-                  //       ),
-                  //     ),
-                  //     Container(
-                  //       margin: const EdgeInsets.only(top: 15),
-                  //       child: const Text(
-                  //         'Click the Load button to load the configuration file',
-                  //         style: TextStyle(
-                  //           fontSize: 12,
-                  //           color: Colors.grey,
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
+                  Consumer<Status>(
+                    builder: (context, status, child) {
+                      if (status.isLoading) {
+                        return MainContent();
+                      } else {
+                        // 这个列是提示用，如果未加载配置就显示
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              margin: const EdgeInsets.only(bottom: 10),
+                              child: const Icon(
+                                // color: Colors.grey,
+                                shadows: [
+                                  Shadow(
+                                      blurRadius: 10,
+                                      offset: Offset(0, 0),
+                                      color: Color.fromARGB(255, 150, 150, 150))
+                                ],
+                                HugeIcons.strokeRoundedGithub,
+                                // Icons.file_present_rounded,
+                                size: 75,
+                                color: Color.fromARGB(255, 150, 150, 150),
+                              ),
+                            ),
+                            const Text(
+                              'Configurator',
+                              style: TextStyle(
+                                shadows: [
+                                  Shadow(
+                                      blurRadius: 10,
+                                      offset: Offset(0, 0),
+                                      color: Color.fromARGB(255, 150, 150, 150))
+                                ],
+                                // decoration: TextD,
+                                fontSize: 20,
+                                fontFamily: "moji",
+                                color: Color.fromARGB(255, 150, 150, 150),
+                                // fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(top: 15),
+                              child: const Text(
+                                'Not a shirt on my back, Not a penny to my name.',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Color.fromARGB(255, 150, 150, 150),
+                                  // fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      }
+                    },
+                  ),
+
                   // 主配置区域，在这个区域里对配置文件进行修改
-                  MainContent(),
+                  // MainContent(),
                 ],
               )),
           // 底栏
@@ -194,14 +211,15 @@ class _HomePageState extends State<HomePage> {
                   Text(
                     'Noah Jones Open source project',
                     style: TextStyle(
-                        fontSize: 13,
-                        color: Color.fromARGB(255, 150, 150, 150),
-                        fontFamily: 'moji'),
+                      fontSize: 12,
+                      color: Color.fromARGB(255, 150, 150, 150),
+                      // fontFamily: 'moji'
+                    ),
                   ),
                   Text(
                     'July 30, 2024; Version 1.0.0 Release',
                     style: TextStyle(
-                      fontSize: 11,
+                      fontSize: 10,
                       color: Color.fromARGB(255, 150, 150, 150),
                     ),
                   ),
@@ -225,66 +243,86 @@ class _HomePageState extends State<HomePage> {
       builder: (context) {
         return MenuFlyout(items: [
           MenuFlyoutItem(
-            leading: const Icon(FluentIcons.circle_addition_solid),
+            leading: const Icon(HugeIcons.strokeRoundedAddCircle),
             text: const Text('打开文件'),
-            onPressed: Flyout.of(context).close,
+            onPressed: () => {loadFile(context), Flyout.of(context).close},
           ),
           MenuFlyoutItem(
-            leading: const Icon(FluentIcons.save),
-            text: const Text('保存修改'),
-            onPressed: Flyout.of(context).close,
-          ),
+              leading: const Icon(HugeIcons.strokeRoundedBook02),
+              text: const Text('保存修改'),
+              onPressed: () => {
+                    saveFile(context),
+                    Flyout.of(context).close,
+                  }),
           MenuFlyoutItem(
-            leading: const Icon(FluentIcons.blocked12),
-            text: const Text('关闭文件'),
-            onPressed: Flyout.of(context).close,
-          ),
+              leading: const Icon(HugeIcons.strokeRoundedRemoveCircle),
+              text: const Text('关闭文件'),
+              onPressed: () => {
+                    closeFile(context),
+                    Flyout.of(context).close,
+                  }),
           MenuFlyoutItem(
             text: const Text('重载文件'),
-            leading: const Icon(FluentIcons.analytics_report),
+            leading: const Icon(HugeIcons.strokeRoundedReload),
             onPressed: Flyout.of(context).close,
           ),
           const MenuFlyoutSeparator(),
           MenuFlyoutSubItem(
             text: const Text('软配置管理'),
-            leading: const Icon(FluentIcons.file_code),
-            // onPressed: Flyout.of(context).close,
+            leading: const Icon(HugeIcons.strokeRoundedCode),
             items: (_) => [
               MenuFlyoutItem(
                 text: const Text('查看配置'),
                 onPressed: Flyout.of(context).close,
-                leading: const Icon(FluentIcons.see_do),
+                leading: const Icon(HugeIcons.strokeRoundedFingerPrint),
               ),
               MenuFlyoutItem(
                 text: const Text('新建配置'),
                 onPressed: Flyout.of(context).close,
-                leading: const Icon(FluentIcons.edit_create),
+                leading: const Icon(HugeIcons.strokeRoundedCactus),
               ),
               MenuFlyoutItem(
                 text: const Text('修改配置'),
-                leading: const Icon(FluentIcons.code_edit),
+                leading: const Icon(HugeIcons.strokeRoundedFileEuro),
                 onPressed: () {},
               ),
               MenuFlyoutItem(
                 text: const Text('禁用配置'),
                 onPressed: Flyout.of(context).close,
-                leading: const Icon(FluentIcons.event_declined),
+                leading: const Icon(HugeIcons.strokeRoundedCallDisabled),
               ),
               MenuFlyoutItem(
                 text: const Text('配置广场'),
                 onPressed: Flyout.of(context).close,
-                leading: const Icon(FluentIcons.express_route_circuits),
+                leading: const Icon(HugeIcons.strokeRoundedPlayCircle),
               ),
               MenuFlyoutItem(
                 text: const Text('刷新配置'),
                 onPressed: Flyout.of(context).close,
-                leading: const Icon(FluentIcons.refresh),
+                leading: const Icon(HugeIcons.strokeRoundedReload),
               ),
             ],
           ),
         ]);
       },
     );
+  }
+
+  loadFile(BuildContext context) async {
+    final status = Provider.of<Status>(context, listen: false);
+    status.isLoading = true;
+    setState(() {});
+  }
+
+  closeFile(BuildContext context) async {
+    final status = Provider.of<Status>(context, listen: false);
+    status.isLoading = false;
+    setState(() {});
+  }
+
+  saveFile(BuildContext context) async {
+    final status = Provider.of<Status>(context, listen: false);
+    status.isLoading = true;
   }
 
   // 跳转到我的网站

@@ -1,6 +1,8 @@
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 
+import '../provider/Status.dart';
 import 'ConfTree.dart';
 
 class MainContent extends StatefulWidget {
@@ -35,7 +37,7 @@ class _MainContentState extends State<MainContent> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 // 文件标题栏
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -48,15 +50,7 @@ class _MainContentState extends State<MainContent> {
                           style: TextStyle(
                               fontSize: 13,
                               color: Color.fromARGB(255, 150, 150, 150)),
-                        )),
-                    Expanded(
-                        flex: 1,
-                        child: IconButton(
-                            onPressed: closeFile,
-                            icon: Icon(
-                                color: Color.fromARGB(150, 150, 0, 0),
-                                size: 13,
-                                CupertinoIcons.circle_filled)))
+                        ))
                   ],
                 ),
                 // 控制间隔
@@ -107,32 +101,34 @@ class _MainContentState extends State<MainContent> {
                                 ),
                                 // 分割线组件（通过边框实现）
                                 Container(
-                                  margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                                  margin:
+                                      const EdgeInsets.fromLTRB(0, 10, 0, 0),
                                   decoration: const BoxDecoration(
                                       border: Border(
                                           bottom: BorderSide(
                                               color: Color.fromARGB(
                                                   100, 80, 80, 80),
-                                              width: 0.2
-                                          )
-                                      )
-                                  ),
+                                              width: 0.2))),
                                 ),
                                 // 间隔
                                 const SizedBox(height: 10),
                                 // 当前配置内容
-                                const Column(
+                                Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        "系统名称",
-                                        style: TextStyle(
-                                          fontSize: 11,
-                                          color: Color.fromARGB(
-                                              255, 150, 150, 150),
-                                        ),
+                                      Consumer<Status>(
+                                        builder: (context, status, child) {
+                                          return Text(
+                                            "${status.isLoading}",
+                                            style: TextStyle(
+                                              fontSize: 11,
+                                              color: Color.fromARGB(
+                                                  255, 150, 150, 150),
+                                            ),
+                                          );
+                                        },
                                       ),
                                       SizedBox(height: 5),
                                     ])
@@ -183,20 +179,17 @@ class _MainContentState extends State<MainContent> {
               ],
             )));
   }
-}
 
-loadConfig() {
-  print('加载配置');
-}
+  loadConfig() {
+    print('加载配置');
+  }
 
-jumpWebSite() {
-  print('跳转到');
-}
+  jumpWebSite() {
+    print('跳转到');
+  }
 
-saveConfig() {
-  print('保存配置');
-}
+  saveConfig() {
+    print('保存配置');
+  }
 
-closeFile() {
-  print('关闭文件');
 }

@@ -9,17 +9,18 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.6
-  window_manager: ^0.3.8
-  fluent_ui: ^4.4.0
+  cupertino_icons: ^1.0.8
+  window_manager: ^0.3.9
+  fluent_ui: ^4.9.0
   font_awesome_flutter: 10.7.0
-  url_launcher: ^6.0.9
+  url_launcher: ^6.3.0
   hugeicons: ^0.0.7
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.0
+  flutter_lints: ^4.0.0
 
 flutter:
   uses-material-design: true

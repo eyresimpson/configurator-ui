@@ -1,5 +1,7 @@
 import 'package:configurator/pages/HomePage.dart';
+import 'package:configurator/provider/Status.dart';
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:provider/provider.dart';
 import 'package:window_manager/window_manager.dart';
 
 void main() {
@@ -9,7 +11,12 @@ void main() {
   windowManager.setSize(const Size(800, 650));
   windowManager.setMinimumSize(const Size(800, 650));
   windowManager.setMaximumSize(const Size(800, 650));
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => Status()),
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -29,8 +36,8 @@ class MyApp extends StatelessWidget {
           // acrylicBackgroundColor: Color.fromARGB(255, 255, 255, 255),
           // micaBackgroundColor: Color.fromARGB(255, 255, 255, 255),
           // cardColor: Color.fromARGB(255, 255, 255, 255),
-        // colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
-      ),
+          // colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
+          ),
       home: const HomePage(),
     );
   }
