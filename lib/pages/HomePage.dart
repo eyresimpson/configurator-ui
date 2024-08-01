@@ -141,7 +141,7 @@ class _HomePageState extends State<HomePage> {
                   Consumer<Status>(
                     builder: (context, status, child) {
                       if (status.isLoading) {
-                        return MainContent();
+                        return const MainContent();
                       } else {
                         // 这个列是提示用，如果未加载配置就显示
                         return Column(
@@ -213,11 +213,11 @@ class _HomePageState extends State<HomePage> {
                     style: TextStyle(
                       fontSize: 12,
                       color: Color.fromARGB(255, 150, 150, 150),
-                      // fontFamily: 'moji'
+                      fontFamily: 'moji'
                     ),
                   ),
                   Text(
-                    'July 30, 2024; Version 1.0.0 Release',
+                    'July 31, 2024; Version 1.0.0 Release',
                     style: TextStyle(
                       fontSize: 10,
                       color: Color.fromARGB(255, 150, 150, 150),

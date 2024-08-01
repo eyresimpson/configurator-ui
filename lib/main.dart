@@ -6,11 +6,11 @@ import 'package:window_manager/window_manager.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  windowManager.setResizable(false);
+  // windowManager.setResizable(false);
   windowManager.setMaximizable(false);
-  windowManager.setSize(const Size(800, 650));
+  // windowManager.setSize(const Size(800, 650));
   windowManager.setMinimumSize(const Size(800, 650));
-  windowManager.setMaximumSize(const Size(800, 650));
+  // windowManager.setMaximumSize(const Size(1920, 1080));
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => Status()),

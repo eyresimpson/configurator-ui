@@ -21,6 +21,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^4.0.0
+  flutter_launcher_icons: ^0.11.0
 
 flutter:
   uses-material-design: true
@@ -28,3 +29,17 @@ flutter:
     - family: moji
       fonts:
         - asset: fonts/NicoMoji-Regular.ttf
+
+flutter_icons:
+  windows:
+    generate: true
+    image_path: "assets/images/icon.png"
+  linux:
+    generate: true
+    image_path: "assets/images/icon.png"
+  macos:
+    generate: true
+    image_path: "assets/images/icon.png"
+  web:
+    generate: true
+    image_path: "assets/images/icon.png"
