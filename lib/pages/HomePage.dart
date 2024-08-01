@@ -33,7 +33,206 @@ class _HomePageState extends State<HomePage> {
               Color.fromARGB(240, 255, 255, 255),
             ]),
       ),
-      child: Expanded(child: ,)
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          // 顶栏
+          Expanded(
+            flex: 1,
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  // Logo
+                  const Expanded(
+                    flex: 4,
+                    child: Text(
+                      'Configurator',
+                      style: TextStyle(
+                        fontSize: 23,
+                        fontFamily: "moji",
+                        color: Color.fromARGB(255, 100, 100, 255),
+                      ),
+                    ),
+                  ),
+                  // 占位
+                  Expanded(flex: 4, child: Container()),
+                  // 操作区域
+                  Expanded(
+                      flex: 4,
+                      // 操作行
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            // 帮助
+                            Expanded(
+                                flex: 2,
+                                child: Container(
+                                  margin: const EdgeInsets.only(right: 10),
+                                  child: HyperlinkButton(
+                                    // style: ButtonStyle(),
+                                    onPressed: () => getHelp(context),
+                                    child: const Text(
+                                      'Help',
+                                      style: TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 100, 100, 255),
+                                        // fontFamily: 'Arial',
+                                      ),
+                                    ),
+                                  ),
+                                )),
+
+                            // Blog
+                            Expanded(
+                                flex: 2,
+                                child: Container(
+                                  margin: const EdgeInsets.only(right: 15),
+                                  child: HyperlinkButton(
+                                    // style: ButtonStyle(),
+                                    onPressed: () => jumpWebSite(context),
+                                    child: const Text(
+                                      'Blog',
+                                      style: TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 100, 100, 255),
+                                      ),
+                                    ),
+                                  ),
+                                )),
+                            // 操作
+                            Expanded(
+                              flex: 2,
+                              child: FlyoutTarget(
+                                  controller: menuController,
+                                  child: FilledButton(
+                                    style: const ButtonStyle(
+                                        backgroundColor: WidgetStatePropertyAll(
+                                            Color.fromARGB(255, 100, 100, 255)),
+                                        foregroundColor: WidgetStatePropertyAll(
+                                            Color.fromARGB(
+                                                255, 135, 132, 132))),
+                                    onPressed: handle,
+                                    child: const Text(
+                                      'Handle',
+                                      style: TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
+                                      ),
+                                    ),
+                                  )),
+                            ),
+                          ]))
+                ],
+              ),
+            ),
+          ),
+          // 主区域
+          Expanded(
+              flex: 16,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Consumer<Status>(
+                    builder: (context, status, child) {
+                      if (status.isFileLoaded) {
+                        return const MainContent();
+                      } else {
+                        // 这个列是提示用，如果未加载配置就显示
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              margin: const EdgeInsets.only(bottom: 10),
+                              child: const Icon(
+                                // color: Colors.grey,
+                                shadows: [
+                                  Shadow(
+                                      blurRadius: 10,
+                                      offset: Offset(0, 0),
+                                      color: Color.fromARGB(255, 150, 150, 150))
+                                ],
+                                HugeIcons.strokeRoundedGithub,
+                                // Icons.file_present_rounded,
+                                size: 75,
+                                color: Color.fromARGB(255, 150, 150, 150),
+                              ),
+                            ),
+                            const Text(
+                              'Configurator',
+                              style: TextStyle(
+                                shadows: [
+                                  Shadow(
+                                      blurRadius: 10,
+                                      offset: Offset(0, 0),
+                                      color: Color.fromARGB(255, 150, 150, 150))
+                                ],
+                                // decoration: TextD,
+                                fontSize: 20,
+                                fontFamily: "moji",
+                                color: Color.fromARGB(255, 150, 150, 150),
+                                // fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(top: 15),
+                              child: const Text(
+                                'Not a shirt on my back, Not a penny to my name.',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Color.fromARGB(255, 150, 150, 150),
+                                  // fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      }
+                    },
+                  ),
+
+                  // 主配置区域，在这个区域里对配置文件进行修改
+                  // MainContent(),
+                ],
+              )),
+          // 底栏
+          Expanded(
+              flex: 1,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  //
+                  Container(
+                    margin:
+                    const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                    decoration: const BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(
+                                color: Color.fromARGB(
+                                    100, 80, 80, 80),
+                                width: 0.2))),
+                  ),
+                  // const SizedBox(height: 15),
+                  const Text(
+                    'Noah Jones Open source project',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Color.fromARGB(255, 150, 150, 150),
+                      fontFamily: 'moji'
+                    ),
+                  ),
+
+                ],
+              ))
+        ],
+      ),
     );
   }
 
