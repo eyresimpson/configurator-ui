@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../provider/Status.dart';
 import 'ConfTree.dart';
+import 'VisualConfig.dart';
 
 class MainContent extends StatefulWidget {
   const MainContent({super.key});
@@ -32,7 +33,7 @@ class _MainContentState extends State<MainContent> {
               // ],
             ),
             // 布局列
-            child: Column(
+            child: const Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -54,7 +55,7 @@ class _MainContentState extends State<MainContent> {
                   ],
                 ),
                 // 控制间隔
-                const SizedBox(
+                SizedBox(
                   height: 15,
                 ),
                 // 主内容区域
@@ -65,75 +66,14 @@ class _MainContentState extends State<MainContent> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // 配置树组件
-                      const Expanded(
+                      Expanded(
                         flex: 4,
                         child: ConfTree(),
                       ),
                       // 配置区域
                       Expanded(
                         flex: 10,
-                        child: Container(
-                          margin: const EdgeInsets.only(right: 10),
-                          padding: const EdgeInsets.all(15),
-                          decoration: const BoxDecoration(
-                            color: Color.fromARGB(255, 250, 250, 250),
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                          ),
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                // 路径导航
-                                const Text('基础配置 / 系统管理',
-                                    style: TextStyle(
-                                        fontSize: 11,
-                                        color: Color.fromARGB(
-                                            255, 150, 150, 150))),
-                                const SizedBox(height: 10),
-                                // 当前配置标题
-                                const Text(
-                                  "系统管理",
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                  ),
-                                ),
-                                // 分割线组件（通过边框实现）
-                                Container(
-                                  margin:
-                                      const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                  decoration: const BoxDecoration(
-                                      border: Border(
-                                          bottom: BorderSide(
-                                              color: Color.fromARGB(
-                                                  100, 80, 80, 80),
-                                              width: 0.2))),
-                                ),
-                                // 间隔
-                                const SizedBox(height: 10),
-                                // 当前配置内容
-                                Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Consumer<Status>(
-                                        builder: (context, status, child) {
-                                          return Text(
-                                            "${status.isLoading}",
-                                            style: TextStyle(
-                                              fontSize: 11,
-                                              color: Color.fromARGB(
-                                                  255, 150, 150, 150),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                      SizedBox(height: 5),
-                                    ])
-                              ]),
-                        ),
+                        child: VisualConfig(),
                       )
                       // Text(
                       //   '内容',
@@ -142,8 +82,8 @@ class _MainContentState extends State<MainContent> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 10),
-                const Row(
+                SizedBox(height: 10),
+                Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [

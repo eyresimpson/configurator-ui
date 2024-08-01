@@ -20,9 +20,9 @@ class _ConfTreeState extends State<ConfTree> {
             content: const Text('系统管理'),
             children: [
               TreeViewItem(
-                  key: const ValueKey('grandchild1'), content: const Text('Root')),
+                  key: const ValueKey('grandchild1'), content: const Text('启动')),
               TreeViewItem(
-                  key: const ValueKey('grandchild2'), content: const Text('Root')),
+                  key: const ValueKey('grandchild2'), content: const Text('策略')),
             ],
           ),
           TreeViewItem(key: const ValueKey('child2'), content: const Text('应用管理')),
@@ -31,9 +31,9 @@ class _ConfTreeState extends State<ConfTree> {
             content: const Text('网络配置'),
             children: [
               TreeViewItem(
-                  key: const ValueKey('grandchild1'), content: const Text('Root')),
+                  key: const ValueKey('grandchild1'), content: const Text('地址')),
               TreeViewItem(
-                  key: const ValueKey('grandchild2'), content: const Text('Root')),
+                  key: const ValueKey('grandchild2'), content: const Text('端口')),
             ],
           ),
           TreeViewItem(key: const ValueKey('child4'), content: const Text('安全管理')),

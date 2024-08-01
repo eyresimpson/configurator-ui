@@ -140,7 +140,7 @@ class _HomePageState extends State<HomePage> {
                 children: <Widget>[
                   Consumer<Status>(
                     builder: (context, status, child) {
-                      if (status.isLoading) {
+                      if (status.isFileLoaded) {
                         return const MainContent();
                       } else {
                         // 这个列是提示用，如果未加载配置就显示
@@ -310,19 +310,19 @@ class _HomePageState extends State<HomePage> {
 
   loadFile(BuildContext context) async {
     final status = Provider.of<Status>(context, listen: false);
-    status.isLoading = true;
+    status.isFileLoaded = true;
     setState(() {});
   }
 
   closeFile(BuildContext context) async {
     final status = Provider.of<Status>(context, listen: false);
-    status.isLoading = false;
+    status.isFileLoaded = false;
     setState(() {});
   }
 
   saveFile(BuildContext context) async {
     final status = Provider.of<Status>(context, listen: false);
-    status.isLoading = true;
+    status.isFileLoaded = true;
   }
 
   // 跳转到我的网站
