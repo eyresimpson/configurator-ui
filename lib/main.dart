@@ -11,6 +11,7 @@ void main() {
   // windowManager.setSize(const Size(800, 650));
   windowManager.setMinimumSize(const Size(800, 650));
   // windowManager.setMaximumSize(const Size(1920, 1080));
+
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => Status()),
