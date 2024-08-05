@@ -29,8 +29,8 @@ class _HomePageState extends State<HomePage> {
             begin: Alignment.topLeft,
             end: Alignment.bottomCenter,
             colors: [
-              Color.fromARGB(250, 255, 255, 255),
               Color.fromARGB(240, 255, 255, 255),
+              Color.fromARGB(250, 255, 255, 255),
             ]),
       ),
       child: Column(
@@ -65,66 +65,54 @@ class _HomePageState extends State<HomePage> {
                       flex: 4,
                       // 操作行
                       child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.end,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             // 帮助
-                            Expanded(
-                                flex: 2,
-                                child: Container(
-                                  margin: const EdgeInsets.only(right: 10),
-                                  child: HyperlinkButton(
-                                    // style: ButtonStyle(),
-                                    onPressed: () => getHelp(context),
-                                    child: const Text(
-                                      'Help',
-                                      style: TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 100, 100, 255),
-                                        // fontFamily: 'Arial',
-                                      ),
-                                    ),
+                            Container(
+                              margin: const EdgeInsets.only(right: 10),
+                              child: HyperlinkButton(
+                                onPressed: () => getHelp(context),
+                                child: const Text(
+                                  '帮助',
+                                  style: TextStyle(
+                                    color: Color.fromARGB(255, 100, 100, 255),
+                                    // fontFamily: 'Arial',
                                   ),
-                                )),
+                                ),
+                              ),
+                            ),
 
-                            // Blog
-                            Expanded(
-                                flex: 2,
-                                child: Container(
-                                  margin: const EdgeInsets.only(right: 15),
-                                  child: HyperlinkButton(
-                                    // style: ButtonStyle(),
-                                    onPressed: () => jumpWebSite(context),
-                                    child: const Text(
-                                      'Blog',
-                                      style: TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 100, 100, 255),
-                                      ),
-                                    ),
+                            Container(
+                              margin: const EdgeInsets.only(right: 15),
+                              child: HyperlinkButton(
+                                // style: ButtonStyle(),
+                                onPressed: () => jumpWebSite(context),
+                                child: const Text(
+                                  '文档',
+                                  style: TextStyle(
+                                    color: Color.fromARGB(255, 100, 100, 255),
                                   ),
-                                )),
+                                ),
+                              ),
+                            ),
                             // 操作
-                            Expanded(
-                              flex: 2,
-                              child: FlyoutTarget(
-                                  controller: menuController,
-                                  child: FilledButton(
-                                    style: const ButtonStyle(
-                                        backgroundColor: WidgetStatePropertyAll(
-                                            Color.fromARGB(255, 100, 100, 255)),
-                                        foregroundColor: WidgetStatePropertyAll(
-                                            Color.fromARGB(
-                                                255, 135, 132, 132))),
-                                    onPressed: handle,
-                                    child: const Text(
-                                      'Handle',
-                                      style: TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 255, 255, 255),
-                                      ),
-                                    ),
-                                  )),
+                            FlyoutTarget(
+                              controller: menuController,
+                              child: FilledButton(
+                                style: const ButtonStyle(
+                                    backgroundColor: WidgetStatePropertyAll(
+                                        Color.fromARGB(255, 100, 100, 255)),
+                                    foregroundColor: WidgetStatePropertyAll(
+                                        Color.fromARGB(255, 135, 132, 132))),
+                                onPressed: handle,
+                                child: const Text(
+                                  '操作',
+                                  style: TextStyle(
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                  ),
+                                ),
+                              ),
                             ),
                           ]))
                 ],
@@ -152,12 +140,12 @@ class _HomePageState extends State<HomePage> {
                               margin: const EdgeInsets.only(bottom: 10),
                               child: const Icon(
                                 // color: Colors.grey,
-                                shadows: [
-                                  Shadow(
-                                      blurRadius: 10,
-                                      offset: Offset(0, 0),
-                                      color: Color.fromARGB(255, 150, 150, 150))
-                                ],
+                                // shadows: [
+                                //   Shadow(
+                                //       blurRadius: 10,
+                                //       offset: Offset(0, 0),
+                                //       color: Color.fromARGB(255, 150, 150, 150))
+                                // ],
                                 HugeIcons.strokeRoundedGithub,
                                 // Icons.file_present_rounded,
                                 size: 75,
@@ -167,12 +155,12 @@ class _HomePageState extends State<HomePage> {
                             const Text(
                               'Configurator',
                               style: TextStyle(
-                                shadows: [
-                                  Shadow(
-                                      blurRadius: 10,
-                                      offset: Offset(0, 0),
-                                      color: Color.fromARGB(255, 150, 150, 150))
-                                ],
+                                // shadows: [
+                                //   Shadow(
+                                //       blurRadius: 10,
+                                //       offset: Offset(0, 0),
+                                //       color: Color.fromARGB(255, 150, 150, 150))
+                                // ],
                                 // decoration: TextD,
                                 fontSize: 20,
                                 fontFamily: "moji",
@@ -183,7 +171,7 @@ class _HomePageState extends State<HomePage> {
                             Container(
                               margin: const EdgeInsets.only(top: 15),
                               child: const Text(
-                                'Not a shirt on my back, Not a penny to my name.',
+                                '松树千年终是朽，槿花一日自为荣。',
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: Color.fromARGB(255, 150, 150, 150),
@@ -202,35 +190,35 @@ class _HomePageState extends State<HomePage> {
                 ],
               )),
           // 底栏
-          Expanded(
-              flex: 1,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  //
-                  Container(
-                    margin:
-                    const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                    decoration: const BoxDecoration(
-                        border: Border(
-                            bottom: BorderSide(
-                                color: Color.fromARGB(
-                                    100, 80, 80, 80),
-                                width: 0.2))),
-                  ),
-                  // const SizedBox(height: 15),
-                  const Text(
-                    'Noah Jones Open source project',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Color.fromARGB(255, 150, 150, 150),
-                      fontFamily: 'moji'
-                    ),
-                  ),
-
-                ],
-              ))
+          // Expanded(
+          //     flex: 1,
+          //     child: Column(
+          //       mainAxisAlignment: MainAxisAlignment.center,
+          //       crossAxisAlignment: CrossAxisAlignment.center,
+          //       children: <Widget>[
+          //         //
+          //         Container(
+          //           margin:
+          //           const EdgeInsets.fromLTRB(0, 20, 0, 0),
+          //           decoration: const BoxDecoration(
+          //               border: Border(
+          //                   bottom: BorderSide(
+          //                       color: Color.fromARGB(
+          //                           100, 80, 80, 80),
+          //                       width: 0.2))),
+          //         ),
+          //         // const SizedBox(height: 15),
+          //         const Text(
+          //           'Supreme Heaven Open source project',
+          //           style: TextStyle(
+          //             fontSize: 14,
+          //             color: Color.fromARGB(255, 150, 150, 150),
+          //             fontFamily: 'moji'
+          //           ),
+          //         ),
+          //
+          //       ],
+          //     ))
         ],
       ),
     );
@@ -249,63 +237,58 @@ class _HomePageState extends State<HomePage> {
       builder: (context) {
         return MenuFlyout(items: [
           MenuFlyoutItem(
-            leading: const Icon(HugeIcons.strokeRoundedAddCircle),
+            leading: const Icon(HugeIcons.strokeRoundedFileAdd),
             text: const Text('打开文件'),
             onPressed: () => {loadFile(context), Flyout.of(context).close},
           ),
           MenuFlyoutItem(
-              leading: const Icon(HugeIcons.strokeRoundedBook02),
+              leading: const Icon(HugeIcons.strokeRoundedFileDownload),
               text: const Text('保存修改'),
               onPressed: () => {
                     saveFile(context),
                     Flyout.of(context).close,
                   }),
           MenuFlyoutItem(
-              leading: const Icon(HugeIcons.strokeRoundedRemoveCircle),
+              leading: const Icon(HugeIcons.strokeRoundedFileRemove),
               text: const Text('关闭文件'),
               onPressed: () => {
                     closeFile(context),
                     Flyout.of(context).close,
                   }),
           MenuFlyoutItem(
-            text: const Text('重载文件'),
+            text: const Text('状态重载'),
             leading: const Icon(HugeIcons.strokeRoundedReload),
             onPressed: Flyout.of(context).close,
           ),
           const MenuFlyoutSeparator(),
           MenuFlyoutSubItem(
-            text: const Text('软配置管理'),
-            leading: const Icon(HugeIcons.strokeRoundedCode),
+            text: const Text('软配置'),
+            leading: const Icon(HugeIcons.strokeRoundedFileScript),
             items: (_) => [
+              MenuFlyoutItem(
+                text: const Text('打开配置'),
+                onPressed: Flyout.of(context).close,
+                leading: const Icon(HugeIcons.strokeRoundedFileImport),
+              ),
               MenuFlyoutItem(
                 text: const Text('查看配置'),
                 onPressed: Flyout.of(context).close,
-                leading: const Icon(HugeIcons.strokeRoundedFingerPrint),
-              ),
-              MenuFlyoutItem(
-                text: const Text('新建配置'),
-                onPressed: Flyout.of(context).close,
-                leading: const Icon(HugeIcons.strokeRoundedCactus),
-              ),
-              MenuFlyoutItem(
-                text: const Text('修改配置'),
-                leading: const Icon(HugeIcons.strokeRoundedFileEuro),
-                onPressed: () {},
+                leading: const Icon(HugeIcons.strokeRoundedFileView),
               ),
               MenuFlyoutItem(
                 text: const Text('禁用配置'),
                 onPressed: Flyout.of(context).close,
-                leading: const Icon(HugeIcons.strokeRoundedCallDisabled),
-              ),
-              MenuFlyoutItem(
-                text: const Text('配置广场'),
-                onPressed: Flyout.of(context).close,
-                leading: const Icon(HugeIcons.strokeRoundedPlayCircle),
+                leading: const Icon(HugeIcons.strokeRoundedFileLocked),
               ),
               MenuFlyoutItem(
                 text: const Text('刷新配置'),
                 onPressed: Flyout.of(context).close,
-                leading: const Icon(HugeIcons.strokeRoundedReload),
+                leading: const Icon(HugeIcons.strokeRoundedFileSync),
+              ),
+              MenuFlyoutItem(
+                text: const Text('配置广场'),
+                onPressed: Flyout.of(context).close,
+                leading: const Icon(HugeIcons.strokeRoundedCloud),
               ),
             ],
           ),
@@ -336,7 +319,7 @@ class _HomePageState extends State<HomePage> {
     await showDialog<String>(
       context: context,
       builder: (context) => ContentDialog(
-        title: const Text('跳转到外部页面？'),
+        title: const Text('跳转到外部文档页面？'),
         content: const Text(
           '此功能需要通过您的默认浏览器，跳转到开发者网站，是否跳转？',
         ),
@@ -364,7 +347,7 @@ class _HomePageState extends State<HomePage> {
     await showDialog<String>(
       context: context,
       builder: (context) => ContentDialog(
-        title: const Text('跳转到外部页面？'),
+        title: const Text('跳转到外部帮助页面？'),
         content: const Text(
           '此功能需要通过您的默认浏览器，跳转到开发者网站，是否跳转？',
         ),

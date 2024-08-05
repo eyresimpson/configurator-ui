@@ -66,7 +66,7 @@ class _VisualConfigState extends State<VisualConfig> {
                     builder: (context, status, child) {
                       return Text(
                         "${status.isFileLoaded}",
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 11,
                           color: Color.fromARGB(
                               255, 150, 150, 150),
@@ -74,7 +74,7 @@ class _VisualConfigState extends State<VisualConfig> {
                       );
                     },
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                 ])
           ]),
     );
