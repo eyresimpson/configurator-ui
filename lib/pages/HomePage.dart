@@ -155,27 +155,18 @@ class _HomePageState extends State<HomePage> {
                             const Text(
                               'Configurator',
                               style: TextStyle(
-                                // shadows: [
-                                //   Shadow(
-                                //       blurRadius: 10,
-                                //       offset: Offset(0, 0),
-                                //       color: Color.fromARGB(255, 150, 150, 150))
-                                // ],
-                                // decoration: TextD,
                                 fontSize: 20,
                                 fontFamily: "moji",
                                 color: Color.fromARGB(255, 150, 150, 150),
-                                // fontWeight: FontWeight.bold,
                               ),
                             ),
                             Container(
                               margin: const EdgeInsets.only(top: 15),
                               child: const Text(
-                                '松树千年终是朽，槿花一日自为荣。',
+                                'Look at the stars, Look how they shine for you.',
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: Color.fromARGB(255, 150, 150, 150),
-                                  // fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
@@ -186,7 +177,6 @@ class _HomePageState extends State<HomePage> {
                   ),
 
                   // 主配置区域，在这个区域里对配置文件进行修改
-                  // MainContent(),
                 ],
               )),
           // 底栏
@@ -297,6 +287,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  // 打开文件操作
   loadFile(BuildContext context) async {
     final status = Provider.of<Status>(context, listen: false);
     status.isFileLoaded = true;
