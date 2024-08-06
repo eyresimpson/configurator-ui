@@ -1,11 +1,7 @@
-import 'package:configurator/comps/MainContent.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:hugeicons/hugeicons.dart';
-import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../provider/Status.dart';
 
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -19,8 +15,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final FlyoutController menuController = FlyoutController();
 
+  // String get helloWorldProvider => "";
+
   @override
   Widget build(BuildContext context) {
+    // final Status value = ref.watch(helloWorldProvider);
+    // final String value = ref.watch(helloWorldProvider as ProviderListenable<String>);
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: const BoxDecoration(
@@ -127,55 +127,52 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Consumer<Status>(
-                    builder: (context, status, child) {
-                      if (status.isFileLoaded) {
-                        return const MainContent();
-                      } else {
-                        // 这个列是提示用，如果未加载配置就显示
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Container(
-                              margin: const EdgeInsets.only(bottom: 10),
-                              child: const Icon(
-                                // color: Colors.grey,
-                                // shadows: [
-                                //   Shadow(
-                                //       blurRadius: 10,
-                                //       offset: Offset(0, 0),
-                                //       color: Color.fromARGB(255, 150, 150, 150))
-                                // ],
-                                HugeIcons.strokeRoundedGithub,
-                                // Icons.file_present_rounded,
-                                size: 75,
-                                color: Color.fromARGB(255, 150, 150, 150),
-                              ),
-                            ),
-                            const Text(
-                              'Configurator',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontFamily: "moji",
-                                color: Color.fromARGB(255, 150, 150, 150),
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(top: 15),
-                              child: const Text(
-                                'Look at the stars, Look how they shine for you.',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Color.fromARGB(255, 150, 150, 150),
-                                ),
-                              ),
-                            ),
-                          ],
-                        );
-                      }
-                    },
-                  ),
+                  // if (true) {
+                  //   return const MainContent();
+                  // } else {
+                  // 这个列是提示用，如果未加载配置就显示
+                  // return
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 10),
+                        child: const Icon(
+                          // color: Colors.grey,
+                          // shadows: [
+                          //   Shadow(
+                          //       blurRadius: 10,
+                          //       offset: Offset(0, 0),
+                          //       color: Color.fromARGB(255, 150, 150, 150))
+                          // ],
+                          HugeIcons.strokeRoundedGithub,
+                          // Icons.file_present_rounded,
+                          size: 75,
+                          color: Color.fromARGB(255, 150, 150, 150),
+                        ),
+                      ),
+                      const Text(
+                        'Configurator',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: "moji",
+                          color: Color.fromARGB(255, 150, 150, 150),
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(top: 15),
+                        child: const Text(
+                          'Look at the stars, Look how they shine for you.',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 150, 150, 150),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                  // }
                 ],
               )),
         ],
@@ -262,25 +259,25 @@ class _HomePageState extends State<HomePage> {
     String path = '';
     final xType = const XTypeGroup(label: '图片', extensions: ['jpg', 'png']);
     final XFile? file = await openFile(acceptedTypeGroups: [xType]);
-    final status = Provider.of<Status>(context, listen: false);
+    // final status = Provider.of<Status>(context, listen: false);
     if (file != null) {
       path = file.path;
       print(file.name);
-      status.isFileLoaded = true;
-      status.filePath = path;
+      // status.isFileLoaded = true;
+      // status.filePath = path;
       setState(() {});
     }
   }
 
   closeFile(BuildContext context) async {
-    final status = Provider.of<Status>(context, listen: false);
-    status.isFileLoaded = false;
+    // final status = Provider.of<Status>(context, listen: false);
+    // status.isFileLoaded = false;
     setState(() {});
   }
 
   saveFile(BuildContext context) async {
-    final status = Provider.of<Status>(context, listen: false);
-    status.isFileLoaded = true;
+    // final status = Provider.of<Status>(context, listen: false);
+    // status.isFileLoaded = true;
   }
 
   // 跳转到我的网站

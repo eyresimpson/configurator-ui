@@ -1,6 +1,14 @@
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-class Status with ChangeNotifier {
+@riverpod
+String helloWorld(HelloWorldRef ref) {
+  return 'Hello world';
+}
+
+class HelloWorldRef {}
+
+class Status extends ChangeNotifier {
   Status({
     this.isFileLoaded = false,
     this.isFileSaved = false,

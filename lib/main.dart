@@ -1,7 +1,6 @@
 import 'package:configurator/pages/HomePage.dart';
-import 'package:configurator/provider/Status.dart';
 import 'package:fluent_ui/fluent_ui.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:window_manager/window_manager.dart';
 
 void main() {
@@ -9,12 +8,11 @@ void main() {
   windowManager.setMaximizable(false);
   windowManager.setMinimumSize(const Size(800, 650));
 
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider(create: (_) => Status()),
-    ],
-    child: const MyApp(),
-  ));
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

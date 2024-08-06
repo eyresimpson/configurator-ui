@@ -1,7 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart';
-import 'package:provider/provider.dart';
 
-import '../provider/Status.dart';
 
 class VisualConfig extends StatefulWidget {
   const VisualConfig({super.key});
@@ -57,24 +55,20 @@ class _VisualConfigState extends State<VisualConfig> {
             // 间隔
             const SizedBox(height: 10),
             // 当前配置内容
-            Column(
+            const Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment:
                 CrossAxisAlignment.start,
                 children: [
-                  Consumer<Status>(
-                    builder: (context, status, child) {
-                      return Text(
-                        "${status.isFileLoaded}",
-                        style: const TextStyle(
-                          fontSize: 11,
-                          color: Color.fromARGB(
-                              255, 150, 150, 150),
-                        ),
-                      );
-                    },
+                  Text(
+                    "sss",
+                    // "${status.isFileLoaded}",
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: Color.fromARGB(255, 150, 150, 150),
+                    ),
                   ),
-                  const SizedBox(height: 5),
+                  SizedBox(height: 5),
                 ])
           ]),
     );
