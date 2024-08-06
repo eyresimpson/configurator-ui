@@ -1,7 +1,12 @@
 import 'package:configurator/pages/HomePage.dart';
+import 'package:configurator/provider/Status.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:window_manager/window_manager.dart';
+
+final basicProvider = Provider((ref) => BasicStatus());
+
+final hardConfProvider = Provider((ref) => HardConfStatus());
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,18 +20,18 @@ void main() {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return FluentApp(
       title: 'Configurator',
       // 关掉debug的横幅
       debugShowCheckedModeBanner: false,
       theme: FluentThemeData(
           ),
-      home: const HomePage(),
+      home: HomePage(),
     );
   }
 }

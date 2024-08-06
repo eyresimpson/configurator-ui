@@ -1,26 +1,24 @@
+import 'package:configurator/provider/Status.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../comps/MainContent.dart';
+import '../main.dart';
+
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class HomePage extends ConsumerWidget {
+  HomePage({super.key});
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
   final FlyoutController menuController = FlyoutController();
 
-  // String get helloWorldProvider => "";
-
   @override
-  Widget build(BuildContext context) {
-    // final Status value = ref.watch(helloWorldProvider);
-    // final String value = ref.watch(helloWorldProvider as ProviderListenable<String>);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final BasicStatus basicState = ref.watch(basicProvider);
+
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: const BoxDecoration(
@@ -48,11 +46,11 @@ class _HomePageState extends State<HomePage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   // Logo
-                  const Expanded(
+                  Expanded(
                     flex: 4,
                     child: Text(
-                      'Configurator',
-                      style: TextStyle(
+                      basicState.title,
+                      style: const TextStyle(
                         fontSize: 23,
                         fontFamily: "moji",
                         color: Color.fromARGB(255, 100, 100, 255),
@@ -106,7 +104,7 @@ class _HomePageState extends State<HomePage> {
                                         Color.fromARGB(255, 100, 100, 255)),
                                     foregroundColor: WidgetStatePropertyAll(
                                         Color.fromARGB(255, 135, 132, 132))),
-                                onPressed: handle,
+                                onPressed: handle(ref),
                                 child: const Text(
                                   '操作',
                                   style: TextStyle(
@@ -127,52 +125,48 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  // if (true) {
-                  //   return const MainContent();
-                  // } else {
-                  // 这个列是提示用，如果未加载配置就显示
-                  // return
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        margin: const EdgeInsets.only(bottom: 10),
-                        child: const Icon(
-                          // color: Colors.grey,
-                          // shadows: [
-                          //   Shadow(
-                          //       blurRadius: 10,
-                          //       offset: Offset(0, 0),
-                          //       color: Color.fromARGB(255, 150, 150, 150))
-                          // ],
-                          HugeIcons.strokeRoundedGithub,
-                          // Icons.file_present_rounded,
-                          size: 75,
-                          color: Color.fromARGB(255, 150, 150, 150),
-                        ),
-                      ),
-                      const Text(
-                        'Configurator',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: "moji",
-                          color: Color.fromARGB(255, 150, 150, 150),
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(top: 15),
-                        child: const Text(
-                          'Look at the stars, Look how they shine for you.',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Color.fromARGB(255, 150, 150, 150),
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
-                  // }
+                  basicState.fileOpend
+                      ? const MainContent()
+                      : Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              margin: const EdgeInsets.only(bottom: 10),
+                              child: const Icon(
+                                // color: Colors.grey,
+                                // shadows: [
+                                //   Shadow(
+                                //       blurRadius: 10,
+                                //       offset: Offset(0, 0),
+                                //       color: Color.fromARGB(255, 150, 150, 150))
+                                // ],
+                                HugeIcons.strokeRoundedGithub,
+                                // Icons.file_present_rounded,
+                                size: 75,
+                                color: Color.fromARGB(255, 150, 150, 150),
+                              ),
+                            ),
+                            const Text(
+                              'Configurator',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontFamily: "moji",
+                                color: Color.fromARGB(255, 150, 150, 150),
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(top: 15),
+                              child: const Text(
+                                'Look at the stars, Look how they shine for you.',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Color.fromARGB(255, 150, 150, 150),
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
                 ],
               )),
         ],
@@ -181,7 +175,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   // 主功能按钮
-  handle() {
+  handle(WidgetRef ref) {
     menuController.showFlyout(
       autoModeConfiguration: FlyoutAutoConfiguration(
         preferredMode: FlyoutPlacementMode.bottomLeft,
@@ -195,7 +189,7 @@ class _HomePageState extends State<HomePage> {
           MenuFlyoutItem(
             leading: const Icon(HugeIcons.strokeRoundedFileAdd),
             text: const Text('打开文件'),
-            onPressed: () => {loadFile(context), Flyout.of(context).close},
+            onPressed: () => {loadFile(context, ref), Flyout.of(context).close},
           ),
           MenuFlyoutItem(
               leading: const Icon(HugeIcons.strokeRoundedFileDownload),
@@ -208,7 +202,7 @@ class _HomePageState extends State<HomePage> {
               leading: const Icon(HugeIcons.strokeRoundedFileRemove),
               text: const Text('关闭文件'),
               onPressed: () => {
-                    closeFile(context),
+                    closeFile(context, ref),
                     Flyout.of(context).close,
                   }),
           MenuFlyoutItem(
@@ -254,25 +248,33 @@ class _HomePageState extends State<HomePage> {
   }
 
   // 打开文件操作
-  loadFile(BuildContext context) async {
+  loadFile(BuildContext context, WidgetRef ref) async {
+    print("object");
+    final HardConfStatus hardConfState = ref.watch(hardConfProvider);
+    final BasicStatus basicState = ref.watch(basicProvider);
     // 打开文件对话框
     String path = '';
-    final xType = const XTypeGroup(label: '图片', extensions: ['jpg', 'png']);
+    const xType = XTypeGroup(
+        label: '配置文件',
+        extensions: ['yml', 'txt', '', 'xml', 'json', 'ini', 'yaml', 'toml']);
     final XFile? file = await openFile(acceptedTypeGroups: [xType]);
     // final status = Provider.of<Status>(context, listen: false);
     if (file != null) {
       path = file.path;
       print(file.name);
-      // status.isFileLoaded = true;
-      // status.filePath = path;
-      setState(() {});
+      // 设置文件路径
+      hardConfState.filePath = path;
+      hardConfState.fileName = file.name;
+      hardConfState.fileType = file.mimeType!;
+      basicState.fileOpend = true;
     }
   }
 
-  closeFile(BuildContext context) async {
-    // final status = Provider.of<Status>(context, listen: false);
-    // status.isFileLoaded = false;
-    setState(() {});
+  closeFile(BuildContext context, WidgetRef ref) async {
+    final HardConfStatus hardConfState = ref.watch(hardConfProvider);
+    final BasicStatus basicState = ref.watch(basicProvider);
+    hardConfState.filePath = '';
+    basicState.fileOpend = false;
   }
 
   saveFile(BuildContext context) async {

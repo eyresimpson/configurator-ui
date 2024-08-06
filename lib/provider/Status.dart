@@ -1,49 +1,31 @@
-import 'package:fluent_ui/fluent_ui.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-@riverpod
-String helloWorld(HelloWorldRef ref) {
-  return 'Hello world';
-}
-
-class HelloWorldRef {}
-
-class Status extends ChangeNotifier {
-  Status({
-    this.isFileLoaded = false,
-    this.isFileSaved = false,
-    this.isSoftConfLoaded = false,
-    this.isSoftConfEnabled = false,
-    this.softConfPath = "",
-    this.filePath = "",
-    this.fileContent = "",
-    this.items = const [],
+class BasicStatus {
+  BasicStatus({
+    this.title = "Configurator",
+    this.isSaved = true,
+    this.fileOpend = false,
   });
 
-  // 是否已加载文件
-  bool isFileLoaded;
-  // 是否已保存文件
-  bool isFileSaved;
-  // 是否已加载软配置
-  bool isSoftConfLoaded;
-  // 是否已启用软配置
-  bool isSoftConfEnabled;
-  // 软配置路径
-  String softConfPath;
-  // 文件路径
-  String filePath;
-  // 硬配置文件内容
-  String fileContent;
-  // 配置结构树
-  List<TreeViewItem> items;
-
-
-  void setLoaded(bool value) {
-    isFileLoaded = value;
-    notifyListeners();
-  }
-
-  void setSaved(bool value) {
-    isFileSaved = value;
-  }
+  bool fileOpend;
+  bool isSaved;
+  String title;
 }
+
+class HardConfStatus {
+  bool isSave;
+  String filePath;
+  String fileName;
+  String fileType;
+  String fileEncoding;
+  String connSoftConf;
+
+  HardConfStatus({
+    this.isSave = false,
+    this.filePath = "",
+    this.fileName = "",
+    this.fileType = "",
+    this.fileEncoding = "",
+    this.connSoftConf = "",
+  });
+}
+
+class SoftConfStatus {}
