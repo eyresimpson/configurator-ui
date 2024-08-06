@@ -6,11 +6,8 @@ import 'package:window_manager/window_manager.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  // windowManager.setResizable(false);
   windowManager.setMaximizable(false);
-  // windowManager.setSize(const Size(800, 650));
   windowManager.setMinimumSize(const Size(800, 650));
-  // windowManager.setMaximumSize(const Size(1920, 1080));
 
   runApp(MultiProvider(
     providers: [
@@ -30,14 +27,6 @@ class MyApp extends StatelessWidget {
       // 关掉debug的横幅
       debugShowCheckedModeBanner: false,
       theme: FluentThemeData(
-          // // accentColor:  AccentColor(),
-          // inactiveColor: Color.fromARGB(255, 255, 255, 255),
-          // scaffoldBackgroundColor: Color.fromARGB(255, 255, 255, 255),
-          // inactiveBackgroundColor: Color.fromARGB(255, 255, 255, 255),
-          // acrylicBackgroundColor: Color.fromARGB(255, 255, 255, 255),
-          // micaBackgroundColor: Color.fromARGB(255, 255, 255, 255),
-          // cardColor: Color.fromARGB(255, 255, 255, 255),
-          // colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
           ),
       home: const HomePage(),
     );

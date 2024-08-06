@@ -1,4 +1,5 @@
 import 'package:configurator/comps/MainContent.dart';
+import 'package:file_selector/file_selector.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:provider/provider.dart';
@@ -175,40 +176,8 @@ class _HomePageState extends State<HomePage> {
                       }
                     },
                   ),
-
-                  // 主配置区域，在这个区域里对配置文件进行修改
                 ],
               )),
-          // 底栏
-          // Expanded(
-          //     flex: 1,
-          //     child: Column(
-          //       mainAxisAlignment: MainAxisAlignment.center,
-          //       crossAxisAlignment: CrossAxisAlignment.center,
-          //       children: <Widget>[
-          //         //
-          //         Container(
-          //           margin:
-          //           const EdgeInsets.fromLTRB(0, 20, 0, 0),
-          //           decoration: const BoxDecoration(
-          //               border: Border(
-          //                   bottom: BorderSide(
-          //                       color: Color.fromARGB(
-          //                           100, 80, 80, 80),
-          //                       width: 0.2))),
-          //         ),
-          //         // const SizedBox(height: 15),
-          //         const Text(
-          //           'Supreme Heaven Open source project',
-          //           style: TextStyle(
-          //             fontSize: 14,
-          //             color: Color.fromARGB(255, 150, 150, 150),
-          //             fontFamily: 'moji'
-          //           ),
-          //         ),
-          //
-          //       ],
-          //     ))
         ],
       ),
     );
@@ -289,9 +258,18 @@ class _HomePageState extends State<HomePage> {
 
   // 打开文件操作
   loadFile(BuildContext context) async {
+    // 打开文件对话框
+    String path = '';
+    final xType = const XTypeGroup(label: '图片', extensions: ['jpg', 'png']);
+    final XFile? file = await openFile(acceptedTypeGroups: [xType]);
     final status = Provider.of<Status>(context, listen: false);
-    status.isFileLoaded = true;
-    setState(() {});
+    if (file != null) {
+      path = file.path;
+      print(file.name);
+      status.isFileLoaded = true;
+      status.filePath = path;
+      setState(() {});
+    }
   }
 
   closeFile(BuildContext context) async {
