@@ -1,5 +1,4 @@
-import 'package:fluent_ui/fluent_ui.dart';
-
+import 'package:flutter/cupertino.dart';
 
 class VisualConfig extends StatefulWidget {
   const VisualConfig({super.key});

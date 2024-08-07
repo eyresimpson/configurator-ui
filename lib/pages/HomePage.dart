@@ -1,22 +1,29 @@
 import 'package:configurator/provider/Status.dart';
 import 'package:file_selector/file_selector.dart';
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../comps/MainContent.dart';
 import '../main.dart';
 
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
 
-class HomePage extends ConsumerWidget {
-  HomePage({super.key});
-
-  final FlyoutController menuController = FlyoutController();
+class HomePage extends ConsumerStatefulWidget {
+  const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends ConsumerState<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final BasicStatus basicState = ref.watch(basicProvider);
 
     return Container(
@@ -25,11 +32,11 @@ class HomePage extends ConsumerWidget {
         // 渐变背景色
         gradient: LinearGradient(
             // 上左到下中
-            begin: Alignment.topLeft,
+            begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color.fromARGB(240, 255, 255, 255),
-              Color.fromARGB(250, 255, 255, 255),
+              Color.fromARGB(230, 255, 255, 255),
+              Color.fromARGB(245, 255, 255, 255),
             ]),
       ),
       child: Column(
@@ -70,7 +77,7 @@ class HomePage extends ConsumerWidget {
                             // 帮助
                             Container(
                               margin: const EdgeInsets.only(right: 10),
-                              child: HyperlinkButton(
+                              child: TextButton(
                                 onPressed: () => getHelp(context),
                                 child: const Text(
                                   '帮助',
@@ -84,7 +91,7 @@ class HomePage extends ConsumerWidget {
 
                             Container(
                               margin: const EdgeInsets.only(right: 15),
-                              child: HyperlinkButton(
+                              child: TextButton(
                                 // style: ButtonStyle(),
                                 onPressed: () => jumpWebSite(context),
                                 child: const Text(
@@ -96,10 +103,12 @@ class HomePage extends ConsumerWidget {
                               ),
                             ),
                             // 操作
-                            FlyoutTarget(
-                              controller: menuController,
-                              child: FilledButton(
-                                style: const ButtonStyle(
+                            // FlyoutTarget(
+                            //   key: GlobalKey(),
+                            //   controller: _flyoutController,
+                            //   child:
+                            TextButton(
+                              style: const ButtonStyle(
                                     backgroundColor: WidgetStatePropertyAll(
                                         Color.fromARGB(255, 100, 100, 255)),
                                     foregroundColor: WidgetStatePropertyAll(
@@ -111,7 +120,7 @@ class HomePage extends ConsumerWidget {
                                     color: Color.fromARGB(255, 255, 255, 255),
                                   ),
                                 ),
-                              ),
+                              // ),
                             ),
                           ]))
                 ],
@@ -125,7 +134,7 @@ class HomePage extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  basicState.fileOpend
+                  !basicState.fileOpend
                       ? const MainContent()
                       : Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -176,75 +185,75 @@ class HomePage extends ConsumerWidget {
 
   // 主功能按钮
   handle(WidgetRef ref) {
-    menuController.showFlyout(
-      autoModeConfiguration: FlyoutAutoConfiguration(
-        preferredMode: FlyoutPlacementMode.bottomLeft,
-      ),
-      barrierDismissible: true,
-      dismissOnPointerMoveAway: false,
-      dismissWithEsc: true,
-      navigatorKey: rootNavigatorKey.currentState,
-      builder: (context) {
-        return MenuFlyout(items: [
-          MenuFlyoutItem(
-            leading: const Icon(HugeIcons.strokeRoundedFileAdd),
-            text: const Text('打开文件'),
-            onPressed: () => {loadFile(context, ref), Flyout.of(context).close},
-          ),
-          MenuFlyoutItem(
-              leading: const Icon(HugeIcons.strokeRoundedFileDownload),
-              text: const Text('保存修改'),
-              onPressed: () => {
-                    saveFile(context),
-                    Flyout.of(context).close,
-                  }),
-          MenuFlyoutItem(
-              leading: const Icon(HugeIcons.strokeRoundedFileRemove),
-              text: const Text('关闭文件'),
-              onPressed: () => {
-                    closeFile(context, ref),
-                    Flyout.of(context).close,
-                  }),
-          MenuFlyoutItem(
-            text: const Text('状态重载'),
-            leading: const Icon(HugeIcons.strokeRoundedReload),
-            onPressed: Flyout.of(context).close,
-          ),
-          const MenuFlyoutSeparator(),
-          MenuFlyoutSubItem(
-            text: const Text('软配置'),
-            leading: const Icon(HugeIcons.strokeRoundedFileScript),
-            items: (_) => [
-              MenuFlyoutItem(
-                text: const Text('打开配置'),
-                onPressed: Flyout.of(context).close,
-                leading: const Icon(HugeIcons.strokeRoundedFileImport),
-              ),
-              MenuFlyoutItem(
-                text: const Text('查看配置'),
-                onPressed: Flyout.of(context).close,
-                leading: const Icon(HugeIcons.strokeRoundedFileView),
-              ),
-              MenuFlyoutItem(
-                text: const Text('禁用配置'),
-                onPressed: Flyout.of(context).close,
-                leading: const Icon(HugeIcons.strokeRoundedFileLocked),
-              ),
-              MenuFlyoutItem(
-                text: const Text('刷新配置'),
-                onPressed: Flyout.of(context).close,
-                leading: const Icon(HugeIcons.strokeRoundedFileSync),
-              ),
-              MenuFlyoutItem(
-                text: const Text('配置广场'),
-                onPressed: Flyout.of(context).close,
-                leading: const Icon(HugeIcons.strokeRoundedCloud),
-              ),
-            ],
-          ),
-        ]);
-      },
-    );
+    // _flyoutController.showFlyout(
+    //   autoModeConfiguration: FlyoutAutoConfiguration(
+    //     preferredMode: FlyoutPlacementMode.bottomLeft,
+    //   ),
+    //   barrierDismissible: true,
+    //   dismissOnPointerMoveAway: false,
+    //   dismissWithEsc: true,
+    //   navigatorKey: rootNavigatorKey.currentState,
+    //   builder: (context) {
+    //     return MenuFlyout(items: [
+    //       MenuFlyoutItem(
+    //         leading: const Icon(HugeIcons.strokeRoundedFileAdd),
+    //         text: const Text('打开文件'),
+    //         onPressed: () => {loadFile(context, ref), Flyout.of(context).close},
+    //       ),
+    //       MenuFlyoutItem(
+    //           leading: const Icon(HugeIcons.strokeRoundedFileDownload),
+    //           text: const Text('保存修改'),
+    //           onPressed: () => {
+    //                 saveFile(context),
+    //                 Flyout.of(context).close,
+    //               }),
+    //       MenuFlyoutItem(
+    //           leading: const Icon(HugeIcons.strokeRoundedFileRemove),
+    //           text: const Text('关闭文件'),
+    //           onPressed: () => {
+    //                 closeFile(context, ref),
+    //                 Flyout.of(context).close,
+    //               }),
+    //       MenuFlyoutItem(
+    //         text: const Text('状态重载'),
+    //         leading: const Icon(HugeIcons.strokeRoundedReload),
+    //         onPressed: Flyout.of(context).close,
+    //       ),
+    //       const MenuFlyoutSeparator(),
+    //       MenuFlyoutSubItem(
+    //         text: const Text('软配置'),
+    //         leading: const Icon(HugeIcons.strokeRoundedFileScript),
+    //         items: (_) => [
+    //           MenuFlyoutItem(
+    //             text: const Text('打开配置'),
+    //             onPressed: Flyout.of(context).close,
+    //             leading: const Icon(HugeIcons.strokeRoundedFileImport),
+    //           ),
+    //           MenuFlyoutItem(
+    //             text: const Text('查看配置'),
+    //             onPressed: Flyout.of(context).close,
+    //             leading: const Icon(HugeIcons.strokeRoundedFileView),
+    //           ),
+    //           MenuFlyoutItem(
+    //             text: const Text('禁用配置'),
+    //             onPressed: Flyout.of(context).close,
+    //             leading: const Icon(HugeIcons.strokeRoundedFileLocked),
+    //           ),
+    //           MenuFlyoutItem(
+    //             text: const Text('刷新配置'),
+    //             onPressed: Flyout.of(context).close,
+    //             leading: const Icon(HugeIcons.strokeRoundedFileSync),
+    //           ),
+    //           MenuFlyoutItem(
+    //             text: const Text('配置广场'),
+    //             onPressed: Flyout.of(context).close,
+    //             leading: const Icon(HugeIcons.strokeRoundedCloud),
+    //           ),
+    //         ],
+    //       ),
+    //     ]);
+    //   },
+    // );
   }
 
   // 打开文件操作
@@ -284,57 +293,57 @@ class HomePage extends ConsumerWidget {
 
   // 跳转到我的网站
   void jumpWebSite(BuildContext context) async {
-    await showDialog<String>(
-      context: context,
-      builder: (context) => ContentDialog(
-        title: const Text('跳转到外部文档页面？'),
-        content: const Text(
-          '此功能需要通过您的默认浏览器，跳转到开发者网站，是否跳转？',
-        ),
-        actions: [
-          Button(
-            child: const Text('确定'),
-            onPressed: () async {
-              const url = 'http://blog.tineaine.cn';
-              await launch(url);
-              Navigator.pop(context, 'User open external browser');
-            },
-          ),
-          // 什么都不做
-          FilledButton(
-            child: const Text('取消'),
-            onPressed: () => {Navigator.pop(context, 'User canceled')},
-          ),
-        ],
-      ),
-    );
+    // await showDialog<String>(
+    //   context: context,
+    //   builder: (context) => ContentDialog(
+    //     title: const Text('跳转到外部文档页面？'),
+    //     content: const Text(
+    //       '此功能需要通过您的默认浏览器，跳转到开发者网站，是否跳转？',
+    //     ),
+    //     actions: [
+    //       Button(
+    //         child: const Text('确定'),
+    //         onPressed: () async {
+    //           const url = 'http://blog.tineaine.cn';
+    //           await launch(url);
+    //           Navigator.pop(context, 'User open external browser');
+    //         },
+    //       ),
+    //       // 什么都不做
+    //       FilledButton(
+    //         child: const Text('取消'),
+    //         onPressed: () => {Navigator.pop(context, 'User canceled')},
+    //       ),
+    //     ],
+    //   ),
+    // );
   }
 
   // 获取使用帮助
   void getHelp(BuildContext context) async {
-    await showDialog<String>(
-      context: context,
-      builder: (context) => ContentDialog(
-        title: const Text('跳转到外部帮助页面？'),
-        content: const Text(
-          '此功能需要通过您的默认浏览器，跳转到开发者网站，是否跳转？',
-        ),
-        actions: [
-          Button(
-            child: const Text('确定'),
-            onPressed: () async {
-              const url = 'http://blog.tineaine.cn';
-              await launch(url);
-              Navigator.pop(context, 'User open external browser');
-            },
-          ),
-          // 什么都不做
-          FilledButton(
-            child: const Text('取消'),
-            onPressed: () => {Navigator.pop(context, 'User canceled')},
-          ),
-        ],
-      ),
-    );
+    // await showDialog<String>(
+    //   context: context,
+    //   builder: (context) => ContentDialog(
+    //     title: const Text('跳转到外部帮助页面？'),
+    //     content: const Text(
+    //       '此功能需要通过您的默认浏览器，跳转到开发者网站，是否跳转？',
+    //     ),
+    //     actions: [
+    //       Button(
+    //         child: const Text('确定'),
+    //         onPressed: () async {
+    //           const url = 'http://blog.tineaine.cn';
+    //           await launch(url);
+    //           Navigator.pop(context, 'User open external browser');
+    //         },
+    //       ),
+    //       // 什么都不做
+    //       FilledButton(
+    //         child: const Text('取消'),
+    //         onPressed: () => {Navigator.pop(context, 'User canceled')},
+    //       ),
+    //     ],
+    //   ),
+    // );
   }
 }
