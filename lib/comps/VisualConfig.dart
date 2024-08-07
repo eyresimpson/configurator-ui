@@ -1,18 +1,30 @@
+import 'package:configurator/comps/ConfItem.dart';
+import 'package:configurator/func/analysis.dart';
+import 'package:configurator/provider/Status.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class VisualConfig extends StatefulWidget {
+class VisualConfig extends ConsumerStatefulWidget {
   const VisualConfig({super.key});
 
-
-
   @override
-  State<VisualConfig> createState() => _VisualConfigState();
+  ConsumerState<VisualConfig> createState() => _VisualConfigState();
 }
 
+class _VisualConfigState extends ConsumerState<VisualConfig> {
+  @override
+  void initState() {
+    print('VisualConfig initState');
+    // 解析路径中的配置，取根配置
+    analysis(ref);
+    // 取解析出来的配置
 
-class _VisualConfigState extends State<VisualConfig> {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final VisualDate visualDate = ref.watch(visualDateProvider);
     return Container(
       margin: const EdgeInsets.only(right: 10),
       padding: const EdgeInsets.all(15),
@@ -25,16 +37,14 @@ class _VisualConfigState extends State<VisualConfig> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // 路径导航
-            const Text('基础配置 / 系统管理',
+            const Text('version',
                 style: TextStyle(
-                    fontSize: 11,
-                    color: Color.fromARGB(
-                        255, 150, 150, 150))),
+                    fontSize: 11, color: Color.fromARGB(255, 150, 150, 150))),
             const SizedBox(height: 10),
             // 当前配置标题
-            const Text(
-              "系统管理",
-              style: TextStyle(
+            Text(
+              visualDate.currentItem,
+              style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
                 color: Color.fromARGB(255, 0, 0, 0),
@@ -42,34 +52,38 @@ class _VisualConfigState extends State<VisualConfig> {
             ),
             // 分割线组件（通过边框实现）
             Container(
-              margin:
-              const EdgeInsets.fromLTRB(0, 10, 0, 0),
+              margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
               decoration: const BoxDecoration(
                   border: Border(
                       bottom: BorderSide(
-                          color: Color.fromARGB(
-                              100, 80, 80, 80),
-                          width: 0.2))),
+                          color: Color.fromARGB(100, 80, 80, 80), width: 0.2))),
             ),
             // 间隔
             const SizedBox(height: 10),
             // 当前配置内容
-            const Column(
+            Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment:
-                CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "sss",
-                    // "${status.isFileLoaded}",
-                    style: TextStyle(
-                      fontSize: 11,
-                      color: Color.fromARGB(255, 150, 150, 150),
-                    ),
-                  ),
-                  SizedBox(height: 5),
-                ])
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: _buildConfItem(visualDate.visualPanelData))
           ]),
     );
+  }
+
+  List<Widget> _buildConfItem(List<VisualPanelDataItem> list) {
+    List<Widget> ret = list.map((item) {
+      String val;
+      if (item.children.isNotEmpty) {
+        val = !item.description.isEmpty ? item.description : "{ ... }";
+      } else {
+        val = item.value.toString();
+      }
+      return ConfItem(
+        label: item.label,
+        value: val,
+        type: '',
+        description: item.description,
+      );
+    }).toList();
+    return ret;
   }
 }

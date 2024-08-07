@@ -1,12 +1,7 @@
 import 'package:configurator/pages/HomePage.dart';
-import 'package:configurator/provider/Status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:window_manager/window_manager.dart';
-
-final basicProvider = Provider((ref) => BasicStatus());
-
-final hardConfProvider = Provider((ref) => HardConfStatus());
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

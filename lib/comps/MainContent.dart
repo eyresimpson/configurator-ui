@@ -1,18 +1,22 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../provider/Status.dart';
 import 'ConfTree.dart';
 import 'VisualConfig.dart';
 
-class MainContent extends StatefulWidget {
+class MainContent extends ConsumerStatefulWidget {
   const MainContent({super.key});
 
   @override
-  State<MainContent> createState() => _MainContentState();
+  ConsumerState<MainContent> createState() => _MainContentState();
 }
 
-class _MainContentState extends State<MainContent> {
+class _MainContentState extends ConsumerState<MainContent> {
   @override
   Widget build(BuildContext context) {
+    final BasicStatus basicState = ref.watch(basicProvider);
+    final HardConfStatus hardConfState = ref.watch(hardConfProvider);
     return Expanded(
         child: Container(
             margin: const EdgeInsets.fromLTRB(10, 25, 10, 20),
@@ -20,17 +24,9 @@ class _MainContentState extends State<MainContent> {
             decoration: const BoxDecoration(
               color: Color.fromARGB(255, 255, 255, 255),
               borderRadius: BorderRadius.all(Radius.circular(10)),
-              // 阴影，可以考虑，但目前采用扁平化的风格
-              // boxShadow: [
-              //   BoxShadow(
-              //     color: Color.fromARGB(20, 0, 0, 0),
-              //     spreadRadius: 5,
-              //     blurRadius: 5,
-              //   ),
-              // ],
             ),
             // 布局列
-            child: const Column(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -39,24 +35,24 @@ class _MainContentState extends State<MainContent> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     // 文件名
                     Expanded(
                         flex: 21,
                         child: Text(
-                          'bootstrap.yml',
-                          style: TextStyle(
+                          hardConfState.fileName,
+                          style: const TextStyle(
                               fontSize: 13,
                               color: Color.fromARGB(255, 150, 150, 150)),
                         ))
                   ],
                 ),
                 // 控制间隔
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 // 主内容区域
-                Expanded(
+                const Expanded(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     // 顶部对齐
@@ -72,61 +68,59 @@ class _MainContentState extends State<MainContent> {
                         flex: 10,
                         child: VisualConfig(),
                       )
-                      // Text(
-                      //   '内容',
-                      //   style: TextStyle(fontSize: 13, color: Colors.grey),
-                      // )
                     ],
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      // 文件名
+                      // TODO：文件编码，将会以此编码进行处理，默认utf8打开保存，点击可以设置
                       Text(
-                        "编码：UTF-8",
+                        "编码：${hardConfState.fileEncoding}",
+                        style: const TextStyle(
+                            fontSize: 10,
+                            color: Color.fromARGB(150, 150, 150, 150)),
+                      ),
+                      const SizedBox(width: 20),
+                      // 配置类型，首先以后缀名判断
+                      Text(
+                        "类型：${hardConfState.fileExtension}",
+                        style: const TextStyle(
+                            fontSize: 10,
+                            color: Color.fromARGB(150, 150, 150, 150)),
+                      ),
+                      const SizedBox(width: 20),
+                      const Text(
+                        "硬配置优先模式",
                         style: TextStyle(
                             fontSize: 10,
                             color: Color.fromARGB(150, 150, 150, 150)),
                       ),
-                      SizedBox(width: 20),
-                      Text(
-                        "类型：Ymal",
-                        style: TextStyle(
-                            fontSize: 10,
-                            color: Color.fromARGB(150, 150, 150, 150)),
-                      ),
-                      SizedBox(width: 20),
-                      // Text(
-                      //   "未同步到文件",
-                      //   style: TextStyle(
-                      //       fontSize: 10,
-                      //       color: Color.fromARGB(150, 100, 100, 0)),
-                      // ),
-                      Text(
-                        "配置已同步",
-                        style: TextStyle(
-                            fontSize: 10,
-                            color: Color.fromARGB(150, 150, 150, 150)),
-                      ),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
+                      // 自动翻译配置项名称
+                      TextButton(
+                          style: TextButton.styleFrom(
+                              padding: EdgeInsets.zero,
+                              minimumSize: const Size(50, 10),
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              alignment: Alignment.center),
+                          onPressed: () => {
+                                setState(() {
+                                  hardConfState.translation =
+                                      !hardConfState.translation;
+                                })
+                              },
+                          child: Text(
+                            "自动翻译已${hardConfState.translation ? "启动" : "禁用"}",
+                            style: const TextStyle(
+                                fontSize: 10,
+                                color: Color.fromARGB(150, 150, 150, 150)),
+                          )),
+                      const SizedBox(width: 10),
                     ]),
               ],
             )));
   }
-
-  loadConfig() {
-    print('加载配置');
-  }
-
-  jumpWebSite() {
-    print('跳转到');
-  }
-
-  saveConfig() {
-    print('保存配置');
-  }
-
 }

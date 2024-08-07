@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 import '../comps/MainContent.dart';
-import '../main.dart';
 
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -74,52 +73,47 @@ class _HomePageState extends ConsumerState<HomePage> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            // 帮助
+                            // 打开/关闭按钮
                             Container(
                               margin: const EdgeInsets.only(right: 10),
                               child: TextButton(
-                                onPressed: () => getHelp(context),
-                                child: const Text(
-                                  '帮助',
-                                  style: TextStyle(
+                                onPressed: () => handleFile(context, ref),
+                                child: Text(
+                                  !basicState.opened ? 'Open' : "Close",
+                                  style: const TextStyle(
                                     color: Color.fromARGB(255, 100, 100, 255),
-                                    // fontFamily: 'Arial',
                                   ),
                                 ),
                               ),
                             ),
-
+                            // 软配置操作按钮
                             Container(
                               margin: const EdgeInsets.only(right: 15),
                               child: TextButton(
                                 // style: ButtonStyle(),
-                                onPressed: () => jumpWebSite(context),
+                                onPressed: () => handleImportSoftConf(ref),
                                 child: const Text(
-                                  '文档',
+                                  'Import',
                                   style: TextStyle(
                                     color: Color.fromARGB(255, 100, 100, 255),
                                   ),
                                 ),
                               ),
                             ),
-                            // 操作
-                            // FlyoutTarget(
-                            //   key: GlobalKey(),
-                            //   controller: _flyoutController,
-                            //   child:
+                            // 保存按钮
                             TextButton(
                               style: const ButtonStyle(
-                                    backgroundColor: WidgetStatePropertyAll(
-                                        Color.fromARGB(255, 100, 100, 255)),
-                                    foregroundColor: WidgetStatePropertyAll(
-                                        Color.fromARGB(255, 135, 132, 132))),
-                                onPressed: handle(ref),
-                                child: const Text(
-                                  '操作',
-                                  style: TextStyle(
-                                    color: Color.fromARGB(255, 255, 255, 255),
-                                  ),
+                                  backgroundColor: WidgetStatePropertyAll(
+                                      Color.fromARGB(255, 100, 100, 255)),
+                                  foregroundColor: WidgetStatePropertyAll(
+                                      Color.fromARGB(255, 135, 132, 132))),
+                              onPressed: handleSave(ref),
+                              child: const Text(
+                                'Save',
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 255, 255, 255),
                                 ),
+                              ),
                               // ),
                             ),
                           ]))
@@ -134,7 +128,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  !basicState.fileOpend
+                  basicState.opened
                       ? const MainContent()
                       : Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -143,15 +137,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                             Container(
                               margin: const EdgeInsets.only(bottom: 10),
                               child: const Icon(
-                                // color: Colors.grey,
-                                // shadows: [
-                                //   Shadow(
-                                //       blurRadius: 10,
-                                //       offset: Offset(0, 0),
-                                //       color: Color.fromARGB(255, 150, 150, 150))
-                                // ],
                                 HugeIcons.strokeRoundedGithub,
-                                // Icons.file_present_rounded,
                                 size: 75,
                                 color: Color.fromARGB(255, 150, 150, 150),
                               ),
@@ -167,7 +153,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                             Container(
                               margin: const EdgeInsets.only(top: 15),
                               child: const Text(
-                                'Look at the stars, Look how they shine for you.',
+                                'Look at the stars, Look how they shine for you',
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: Color.fromARGB(255, 150, 150, 150),
@@ -183,167 +169,76 @@ class _HomePageState extends ConsumerState<HomePage> {
     );
   }
 
-  // 主功能按钮
-  handle(WidgetRef ref) {
-    // _flyoutController.showFlyout(
-    //   autoModeConfiguration: FlyoutAutoConfiguration(
-    //     preferredMode: FlyoutPlacementMode.bottomLeft,
-    //   ),
-    //   barrierDismissible: true,
-    //   dismissOnPointerMoveAway: false,
-    //   dismissWithEsc: true,
-    //   navigatorKey: rootNavigatorKey.currentState,
-    //   builder: (context) {
-    //     return MenuFlyout(items: [
-    //       MenuFlyoutItem(
-    //         leading: const Icon(HugeIcons.strokeRoundedFileAdd),
-    //         text: const Text('打开文件'),
-    //         onPressed: () => {loadFile(context, ref), Flyout.of(context).close},
-    //       ),
-    //       MenuFlyoutItem(
-    //           leading: const Icon(HugeIcons.strokeRoundedFileDownload),
-    //           text: const Text('保存修改'),
-    //           onPressed: () => {
-    //                 saveFile(context),
-    //                 Flyout.of(context).close,
-    //               }),
-    //       MenuFlyoutItem(
-    //           leading: const Icon(HugeIcons.strokeRoundedFileRemove),
-    //           text: const Text('关闭文件'),
-    //           onPressed: () => {
-    //                 closeFile(context, ref),
-    //                 Flyout.of(context).close,
-    //               }),
-    //       MenuFlyoutItem(
-    //         text: const Text('状态重载'),
-    //         leading: const Icon(HugeIcons.strokeRoundedReload),
-    //         onPressed: Flyout.of(context).close,
-    //       ),
-    //       const MenuFlyoutSeparator(),
-    //       MenuFlyoutSubItem(
-    //         text: const Text('软配置'),
-    //         leading: const Icon(HugeIcons.strokeRoundedFileScript),
-    //         items: (_) => [
-    //           MenuFlyoutItem(
-    //             text: const Text('打开配置'),
-    //             onPressed: Flyout.of(context).close,
-    //             leading: const Icon(HugeIcons.strokeRoundedFileImport),
-    //           ),
-    //           MenuFlyoutItem(
-    //             text: const Text('查看配置'),
-    //             onPressed: Flyout.of(context).close,
-    //             leading: const Icon(HugeIcons.strokeRoundedFileView),
-    //           ),
-    //           MenuFlyoutItem(
-    //             text: const Text('禁用配置'),
-    //             onPressed: Flyout.of(context).close,
-    //             leading: const Icon(HugeIcons.strokeRoundedFileLocked),
-    //           ),
-    //           MenuFlyoutItem(
-    //             text: const Text('刷新配置'),
-    //             onPressed: Flyout.of(context).close,
-    //             leading: const Icon(HugeIcons.strokeRoundedFileSync),
-    //           ),
-    //           MenuFlyoutItem(
-    //             text: const Text('配置广场'),
-    //             onPressed: Flyout.of(context).close,
-    //             leading: const Icon(HugeIcons.strokeRoundedCloud),
-    //           ),
-    //         ],
-    //       ),
-    //     ]);
-    //   },
-    // );
-  }
+  // 保存操作
+  handleSave(WidgetRef ref) {}
 
-  // 打开文件操作
-  loadFile(BuildContext context, WidgetRef ref) async {
-    print("object");
+  // 导入导出软配置
+  handleImportSoftConf(WidgetRef ref) async {
     final HardConfStatus hardConfState = ref.watch(hardConfProvider);
     final BasicStatus basicState = ref.watch(basicProvider);
+    // 检查当前文件状态
+    if (basicState.opened) {
+      // 检查文件是否保存
+      if (!hardConfState.isSave) {
+        // TODO：提示用户未保存文件
+      }
+      // 文件已打开，执行文件关闭操作并清理掉文件信息
+      hardConfState.filePath = '';
+      hardConfState.content = null;
+      basicState.opened = false;
+      setState(() {});
+      return;
+    }
     // 打开文件对话框
-    String path = '';
-    const xType = XTypeGroup(
-        label: '配置文件',
-        extensions: ['yml', 'txt', '', 'xml', 'json', 'ini', 'yaml', 'toml']);
+    const xType = XTypeGroup(label: 'CO软配置文件', extensions: ['sc']);
     final XFile? file = await openFile(acceptedTypeGroups: [xType]);
-    // final status = Provider.of<Status>(context, listen: false);
     if (file != null) {
-      path = file.path;
-      print(file.name);
       // 设置文件路径
-      hardConfState.filePath = path;
+      hardConfState.filePath = file.path;
       hardConfState.fileName = file.name;
-      hardConfState.fileType = file.mimeType!;
-      basicState.fileOpend = true;
+      // 尝试获取文件后缀名，注意这个不一定成功
+      final fileType = file.name.split('.').last;
+      hardConfState.fileExtension = fileType;
+      basicState.opened = true;
+      setState(() {});
     }
   }
 
-  closeFile(BuildContext context, WidgetRef ref) async {
+  // 硬配置操作
+  handleFile(BuildContext context, WidgetRef ref) async {
     final HardConfStatus hardConfState = ref.watch(hardConfProvider);
     final BasicStatus basicState = ref.watch(basicProvider);
-    hardConfState.filePath = '';
-    basicState.fileOpend = false;
-  }
-
-  saveFile(BuildContext context) async {
-    // final status = Provider.of<Status>(context, listen: false);
-    // status.isFileLoaded = true;
-  }
-
-  // 跳转到我的网站
-  void jumpWebSite(BuildContext context) async {
-    // await showDialog<String>(
-    //   context: context,
-    //   builder: (context) => ContentDialog(
-    //     title: const Text('跳转到外部文档页面？'),
-    //     content: const Text(
-    //       '此功能需要通过您的默认浏览器，跳转到开发者网站，是否跳转？',
-    //     ),
-    //     actions: [
-    //       Button(
-    //         child: const Text('确定'),
-    //         onPressed: () async {
-    //           const url = 'http://blog.tineaine.cn';
-    //           await launch(url);
-    //           Navigator.pop(context, 'User open external browser');
-    //         },
-    //       ),
-    //       // 什么都不做
-    //       FilledButton(
-    //         child: const Text('取消'),
-    //         onPressed: () => {Navigator.pop(context, 'User canceled')},
-    //       ),
-    //     ],
-    //   ),
-    // );
-  }
-
-  // 获取使用帮助
-  void getHelp(BuildContext context) async {
-    // await showDialog<String>(
-    //   context: context,
-    //   builder: (context) => ContentDialog(
-    //     title: const Text('跳转到外部帮助页面？'),
-    //     content: const Text(
-    //       '此功能需要通过您的默认浏览器，跳转到开发者网站，是否跳转？',
-    //     ),
-    //     actions: [
-    //       Button(
-    //         child: const Text('确定'),
-    //         onPressed: () async {
-    //           const url = 'http://blog.tineaine.cn';
-    //           await launch(url);
-    //           Navigator.pop(context, 'User open external browser');
-    //         },
-    //       ),
-    //       // 什么都不做
-    //       FilledButton(
-    //         child: const Text('取消'),
-    //         onPressed: () => {Navigator.pop(context, 'User canceled')},
-    //       ),
-    //     ],
-    //   ),
-    // );
+    // 检查当前文件状态
+    if (basicState.opened) {
+      // 检查文件是否保存
+      if (!hardConfState.isSave) {
+        // TODO：提示用户未保存文件
+      }
+      // 文件已打开，执行文件关闭操作并清理掉文件信息
+      hardConfState.filePath = '';
+      basicState.opened = false;
+      setState(() {});
+      return;
+    }
+    // 打开文件对话框
+    const xType = XTypeGroup(
+        label: '配置文件',
+        extensions: ['yml', 'txt', '*', 'xml', 'json', 'ini', 'yaml', 'toml']);
+    final XFile? file = await openFile(acceptedTypeGroups: [xType]);
+    if (file != null) {
+      // 设置文件路径
+      hardConfState.filePath = file.path;
+      // 设置文件名称
+      hardConfState.fileName = file.name;
+      // 默认就是utf8
+      hardConfState.fileEncoding = "utf-8";
+      // 尝试获取文件后缀名，注意这个不一定成功，如果没有后缀名，可能获取的是错误的
+      final fileType = file.name.split('.').last;
+      hardConfState.fileExtension = fileType;
+      // 默认硬配置优先
+      basicState.hardConfPrimary = true;
+      basicState.opened = true;
+      setState(() {});
+    }
   }
 }
